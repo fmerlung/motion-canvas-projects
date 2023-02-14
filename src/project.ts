@@ -1,9 +1,8 @@
 import {makeProject} from '@motion-canvas/core/lib';
 
-import example from './scenes/example?scene';
-import positioning from './scenes/positioning?scene';
+import insertion_sort from './scenes/insertion_sort?scene';
 
 export default makeProject({
-  scenes: [example, positioning],
+  scenes: [insertion_sort],
   background: '#141414',
 });

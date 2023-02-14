@@ -1,8 +1,6 @@
 import {makeScene2D} from '@motion-canvas/2d/lib/scenes';
-import {Rect} from '@motion-canvas/2d/lib/components';
-import {Node} from '@motion-canvas/2d/lib/components';
-import {Text} from '@motion-canvas/2d/lib/components';
-import {createRef} from '@motion-canvas/core/lib/utils';
+import {Rect, Node, Text} from '@motion-canvas/2d/lib/components';
+import {createRef, Reference} from '@motion-canvas/core/lib/utils';
 import {all, waitFor} from '@motion-canvas/core/lib/flow';
 import {slideTransition} from '@motion-canvas/core/lib/transitions'
 import { Direction } from '@motion-canvas/core/lib/types';
@@ -10,11 +8,10 @@ import { Direction } from '@motion-canvas/core/lib/types';
 export default makeScene2D(function* (view) {
   const myNode = createRef<Node>();
   const titleText = createRef<Text>();
+  const complexityLabel = createRef<Text>();
 
   let squareSide = 240;
-
-  let numberOfBoxes = 5
-  let title = "Insertion sort!";
+  let title = "INSERTION SORT";
 
   view.add(
     <>
@@ -26,7 +23,7 @@ export default makeScene2D(function* (view) {
           lineWidth={2}
           position = {[-squareSide*2, 0]}
           lineCap="square">
-          <Text fill="ffffff" text="1" fontFamily={"Consolas"}/>
+          <Text fill="ffffff" text="1" fontFamily={"JetBrains Mono"}/>
         </Rect>
         <Rect
           width={squareSide}
@@ -35,7 +32,7 @@ export default makeScene2D(function* (view) {
           lineWidth={2}
           lineCap="square"
           position={[-squareSide, 0]}>
-          <Text fill="ffffff" text="2" fontFamily={"Consolas"}/>
+          <Text fill="ffffff" text="2" fontFamily={"JetBrains Mono"}/>
         </Rect>
         <Rect
           width={squareSide}
@@ -43,7 +40,7 @@ export default makeScene2D(function* (view) {
           stroke="white"
           lineWidth={2}
           lineCap="square">
-          <Text fill="ffffff" text="3" fontFamily={"Consolas"}/>
+          <Text fill="ffffff" text="3" fontFamily={"JetBrains Mono"}/>
         </Rect>
         <Rect
           width={squareSide}
@@ -52,7 +49,7 @@ export default makeScene2D(function* (view) {
           lineWidth={2}
           lineCap="square"
           position={[squareSide, 0]}>
-          <Text fill="ffffff" text="4" fontFamily={"Consolas"}/>
+          <Text fill="ffffff" text="4" fontFamily={"JetBrains Mono"}/>
         </Rect>
         <Rect
           width={squareSide}
@@ -61,14 +58,25 @@ export default makeScene2D(function* (view) {
           lineWidth={2}
           lineCap="square"
           position={[squareSide*2, 0]}>
-          <Text fill="ffffff" text="5" fontFamily={"Consolas"}/>
+          <Text fill="ffffff" text="5" fontFamily={"JetBrains Mono"}/>
         </Rect>
+        <Text 
+        ref={complexityLabel} 
+        opacity={0} 
+        text="worst case: Ω(n²)" 
+        fontFamily={"JetBrains Mono"}
+        fontSize={36}
+        fill="#ffffff"
+        y={-300}
+
+        />
       </Node>
 
       <Text
       ref={titleText}
       text={title}
-      fontFamily={"Consolas"}
+      fontFamily={"JetBrains Mono"}
+      fontSize={48}
       y={-300}
       fill="#ffffff"
       />
@@ -77,11 +85,10 @@ export default makeScene2D(function* (view) {
 
   yield* slideTransition(Direction.Top, 1.5);
   yield* waitFor(0.25);
-
   yield* all(
-    myNode().position.x(300, 0.5).to(-300, 1).to(0, 0.5),
-    titleText().position.x(-150, 0.5).to(150, 1).to(0, 0.5),
-    titleText().rotation(-45, 0.5).to(45, 1).to(0, 0.5),
-    myNode().rotation(-45, 0.5).to(45, 1).to(0, 0.5),
-  );
+    titleText().position.y(-400, 0.8), 
+    complexityLabel().position.y(-300, 1),
+    complexityLabel().opacity(1, 1))
+
+
 });
